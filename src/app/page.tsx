@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 
 export default function Page() {
   const { data: session } = useSession();
+  console.log(session);
 
   return (
     <div>

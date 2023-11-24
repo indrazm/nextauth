@@ -60,6 +60,28 @@ export const options: AuthOptions = {
 
       return true;
     },
+    session: async ({ session }) => {
+      if (session.user) {
+        const findUser = await prisma.user.findUnique({
+          where: {
+            email: session.user.email as string,
+          },
+        });
+
+        if (findUser) {
+          session.user.id = findUser.id;
+          session.user.role = 'USER';
+        }
+      }
+
+      return session;
+    },
+    jwt: async ({ token }) => {
+      if (token) {
+        token.role = 'USER';
+      }
+      return token;
+    },
   },
   pages: {
     signIn: '/',
